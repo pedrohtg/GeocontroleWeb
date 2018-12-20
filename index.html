@@ -14,16 +14,10 @@
 			<div class="collapse navbar-collapse" id="navbarColor03">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="index.html">Command Input</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Features</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Pricing</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">About</a>
+						<a class="nav-link" href="shplist">Generated Shapefile</a>
 					</li>
 				</ul>
 			</div>
@@ -37,13 +31,13 @@
 						<div class="card-body">
 							<fieldset>
 								<div class="form-group">
-									<label for="imgList">Images to analyze</label>
-									<input type="text" class="form-control" id="imglist" aria-describedby="imglistHelp" placeholder="IMG1 Path,IMG2 Path,...">
-									<small id="imgListHelp" class="form-text text-muted">The images should be in the server. Separate each image path by a comma [ , ].</small>
+									<label for="imglist">Images to analyze</label>
+									<input type="text" class="form-control" id="imglist" name="imglist" aria-describedby="imglistHelp" placeholder="IMG1 Path,IMG2 Path,...">
+									<small id="imglistHelp" class="form-text text-muted">The images should be in the server. Separate each image path by a comma [ , ].</small>
 								</div>
 								<div class="form-group">
 									<label for="rlwshp">Railway shapefile</label>
-									<input type="text" class="form-control" id="rlwshp" aria-describedby="rlwshpHelp" placeholder="Railway.shp">
+									<input type="text" class="form-control" id="rlwshp" name="rlwshp" aria-describedby="rlwshpHelp" placeholder="Railway.shp">
 									<small id="rlwshpHelp" class="form-text text-muted">The server path of the railway shapefile. This is used for internal validation.</small>
 								</div>
 								<hr>
@@ -62,11 +56,11 @@
 									<h3 class="card-title"><strong>Task Target</strong></h3>
 									<div class="form-group">
 										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="target11">
+											<input type="checkbox" class="custom-control-input" id="target11" name="target11">
 											<label class="custom-control-label" id="target11Label" for="target11">Bridge Detection</label>
 										</div>
 										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="target21">
+											<input type="checkbox" class="custom-control-input" id="target21" name="target21">
 											<label class="custom-control-label" id="target21Label" for="target21">Erosion Segmentation</label>
 										</div>
 									</div>
@@ -89,17 +83,17 @@
 								</div>
 								<div class="form-group">
 									<label for="outname1">Output shapefile name</label>
-									<input type="text" class="form-control" id="outname1" aria-describedby="imglistHelp" placeholder="rlw-rois">
+									<input type="text" class="form-control" id="outname1" name="outname1"aria-describedby="imglistHelp" placeholder="rlw-rois">
 									<small id="outname1Help" class="form-text text-muted">The shapefile generated will have this name.</small>
 								</div>
 								<div class="form-group" style="display:none" id="outname2div">
 									<label for="outname2">Output shapefile name [Erosion Task]</label>
-									<input type="text" class="form-control" id="outname2" aria-describedby="imglistHelp" placeholder="rlw-erosions">
+									<input type="text" class="form-control" id="outname2" name="outname1" aria-describedby="imglistHelp" placeholder="rlw-erosions">
 									<small id="outname2Help" class="form-text text-muted">The shapefile generated will have this name.</small>
 								</div>
 								<div class="form-group" id='userannot' style="display: none">
 									<label for="inputshp">User Annotations</label>
-									<input type="text" class="form-control" id="inputshp" aria-describedby="inputshpHelp" placeholder="roi-annotations.shp">
+									<input type="text" class="form-control" id="inputshp" name="inputshp" aria-describedby="inputshpHelp" placeholder="roi-annotations.shp">
 									<small id="inputshpHelp" class="form-text text-muted">The user annotated regions of interest's shapefile.</small>
 								</div>
 								<div class="form-group float-right">

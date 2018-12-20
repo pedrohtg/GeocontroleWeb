@@ -1,7 +1,9 @@
 #!/usr/bin/python
 from http.server import BaseHTTPRequestHandler,HTTPServer
 from os import curdir, sep
-import io
+import io, os
+import cgi
+from zipfile import ZipFile
 
 PORT_NUMBER = 8080
 
@@ -9,10 +11,76 @@ PORT_NUMBER = 8080
 #the browser 
 class myHandler(BaseHTTPRequestHandler):
 	
+	def folderListing(self, folder):
+		if not os.path.exists(folder):
+			os.mkdir(folder)
+
+		htmlf = open('template.html', 'r')
+		html = htmlf.read()
+		htmlf.close()
+		table = '<table class="table table-hover table-striped">'
+		table += '<thead class="thead-dark"> <tr> <th scope="col"> Filename </th> <th> </th> </tr> </thead>'
+		table += '<tbody>'
+
+		ext = ['.dbf', '.prj', '.shx', '.shp']
+
+		
+		for file in os.listdir(folder):
+			tr = '<tr>'
+			if '.shp' in file:
+				td = '<td>'
+				base = os.path.splitext(file)[0]
+				valid = True
+				for e in ext:
+					if not os.path.exists(os.path.join(folder, base + e)):
+						valid = False
+						break
+
+				if not valid:
+					continue
+
+				# If don't exist zip file create a new one to contain all files 
+				# needed for a useful shapefile
+				if not os.path.exists(os.path.join(folder, base + '.zip')):
+					with ZipFile(os.path.join(folder, base + '.zip'), 'w') as zipf:
+						for e in ext:
+							zipf.write(os.path.join(folder, base + e))
+
+						zipf.close()
+
+				td += base
+				td += '</td>'
+
+				td += '<td> <a href="' + os.path.join(folder, base + '.zip') + '" download>'
+				td += 'Download file </a></td>'
+
+				tr += td
+				tr += '</tr>'
+
+				table += tr
+
+		table += '</tbody>'
+		table += '</table>'
+
+		htmls = html.split('<div class="col-md-8">')
+		response = htmls[0] + '<div class="col-md-8">' + table + htmls[1]
+
+		return response
+
+
 	#Handler for the GET requests
 	def do_GET(self):
 		if self.path=="/":
 			self.path="/index.html"
+
+		if self.path=='/shplist':
+			self.send_response(200)
+			self.send_header('Content-type','text/html')
+			self.end_headers()
+			r = self.folderListing('genshps')
+			self.wfile.write(bytes(r, 'utf-8'))
+
+			return
 
 		try:
 			#Check the file extension required and
@@ -59,10 +127,10 @@ class myHandler(BaseHTTPRequestHandler):
 		                 'CONTENT_TYPE':self.headers['Content-Type'],
 			})
 
-			print "Your name is: %s" % form["your_name"].value
+			print("Your name is: %s" % form["imglist"].value)
 			self.send_response(200)
 			self.end_headers()
-			self.wfile.write("Thanks %s !" % form["your_name"].value)
+			self.wfile.write(bytes("Thanks %s !" % form["imglist"].value, 'utf-8'))
 			return			
 
 
